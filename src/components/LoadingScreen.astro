@@ -1,0 +1,72 @@
+---
+import { Picture } from "@astrojs/image/components";
+
+const loadingText = [
+  "G",
+  "R",
+  "I",
+  "L",
+  "L",
+  ".",
+  "P",
+  "A",
+  "L",
+  "A",
+  "S",
+  "T",
+];
+---
+
+<div
+  class="absolute top-0 left-0 bg-primary w-full h-screen loading-screen grid place-items-center px-6"
+>
+  <div class="flex flex-col items-center space-y-10">
+    <Picture
+      src={"/images/branding.png"}
+      widths={[128, 64]}
+      sizes="(min-width: 768px) 128px, (max-width: 767px) 64px"
+      aspectRatio="1:1"
+      alt="Branding"
+    />
+    <h2
+      class="text-4xl md:text-6xl clip font-primary text-quaternary space-x-2"
+    >
+      {
+        loadingText.map((text) => (
+          <span class="loading-heading translate-y-[115px] inline-block duration-500 transition-transform">
+            {" "}
+            {text}
+          </span>
+        ))
+      }
+    </h2>
+  </div>
+</div>
+
+<style>
+  .clip {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  }
+</style>
+
+<script>
+  gsap
+    .timeline({ defaults: { ease: "power2.inOut" } })
+    .to(".loading-heading", {
+      y: 0,
+      stagger: 0.05,
+      duration: 0.1,
+      ease: "power2.inOut",
+    })
+    .to(".loading-image", {
+      y: 0,
+      stagger: 0.1,
+      "clip-path": "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
+      transformOrigin: "bottom",
+    })
+    .to(".loading-screen", {
+      scaleY: 0,
+      duration: 0.6,
+      transformOrigin: "top",
+    });
+</script>
