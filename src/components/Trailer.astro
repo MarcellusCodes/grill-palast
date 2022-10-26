@@ -12,17 +12,12 @@
 <script>
   const trailer = document.getElementById("trailer");
 
-  const animateTrailer = (
-    e: { clientX: number; clientY: number },
-    interacting: boolean,
-    color: string
-  ) => {
-    const x = e.clientX - trailer!.offsetWidth / 2;
-    const y = e.clientY - trailer!.offsetHeight / 2;
+  const animateTrailer = (event: MouseEvent, interacting: boolean) => {
+    const x = event.clientX - trailer!.offsetWidth / 2;
+    const y = event.clientY - trailer!.offsetHeight / 2;
 
     const keyframes = {
       transform: `translate(${x}px, ${y}px) scale(${interacting ? 8 : 1})`,
-      backgroundColor: color,
     };
 
     trailer!.animate(keyframes, {
@@ -31,9 +26,10 @@
     });
   };
 
-  window.onmousemove = (event) => {
-    const interactable = event!.target!.closest(".card");
-    const interacting = interactable ? true : false;
+  window.onmousemove = (event: MouseEvent) => {
+    const interactable = event!.target! as Element;
+    const interactableNearest = interactable.closest(".card");
+    const interacting = interactableNearest ? true : false;
 
     animateTrailer(event, interacting);
   };
